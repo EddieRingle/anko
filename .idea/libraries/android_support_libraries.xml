@@ -4,9 +4,9 @@
       <root url="jar://$PROJECT_DIR$/lib/android-sdk/support/appcompat-v7/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/android-sdk/support/support-v4/libs/internal_impl-22.0.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/android-sdk/support/support-v4/classes.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/android-sdk/support/appcompat-v7/classes.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/android-sdk/support/support-v4/libs/internal_impl-22.1.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
