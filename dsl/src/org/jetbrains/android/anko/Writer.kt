@@ -22,6 +22,7 @@ import java.io.PrintWriter
 import java.io.File
 import java.util.ArrayList
 import org.jetbrains.android.anko.config.AnkoFile.*
+import org.jetbrains.android.anko.config.AnkoFile
 import org.jetbrains.android.anko.config.ConfigurationTune.*
 import org.jetbrains.android.anko.config.Props
 
@@ -30,34 +31,20 @@ class Writer(private val renderer: Renderer) {
     val config = renderer.config
 
     fun write() {
-        sortedSetOf(
-            ASYNC,
-            CONTEXT_UTILS,
-            CUSTOM,
-            DATABASE,
-            DIALOGS,
-            HELPERS,
-            INTERNALS,
-            LOGGER,
-            OTHER,
-            OTHER_WIDGETS,
-            SQL_PARSERS,
-            SUPPORT
-        ).forEach { if (config[it]) writeStatic(it) }
+        for (file in AnkoFile.values()) {
+            when (file) {
+                AnkoFile.VIEWS -> { if (config[VIEWS] || config[HELPER_CONSTRUCTORS]) writeViews() }
+                AnkoFile.INTERFACE_WORKAROUNDS -> { if (config[INTERFACE_WORKAROUNDS]) writeInterfaceWorkarounds() }
 
-        setOf(
-            LAYOUTS to ::writeLayouts,
-            LISTENERS to ::writeListeners,
-            PROPERTIES to ::writeProperties,
-            SERVICES to ::writeServices,
-            SQL_PARSER_HELPERS to ::writeSqlParserHelpers
-        ).forEach { if (config[it.first]) it.second() }
+                AnkoFile.LAYOUTS -> { if (config[LAYOUTS]) writeLayouts() }
+                AnkoFile.LISTENERS -> { if (config[LISTENERS]) writeListeners() }
+                AnkoFile.PROPERTIES -> { if (config[PROPERTIES]) writeProperties() }
+                AnkoFile.SERVICES -> { if (config[SERVICES]) writeServices() }
+                AnkoFile.SQL_PARSER_HELPERS -> { if (config[SQL_PARSER_HELPERS]) writeSqlParserHelpers() }
 
-        if (config[VIEWS] || config[HELPER_CONSTRUCTORS])
-            writeViews()
-
-        if (config[INTERFACE_WORKAROUNDS])
-            writeInterfaceWorkarounds()
+                else -> if (config[file]) writeStatic(file)
+            }
+        }
     }
 
     fun writeInterfaceWorkarounds() {
