@@ -35,7 +35,6 @@ public enum class AnkoFile {
     SQL_PARSER_HELPERS
     SQL_PARSERS
     SUPPORT
-    SUPPORT_TINTED_WIDGETS
     VIEWS
 
     public val filename: String = toString().toCamelCase() + ".kt"
