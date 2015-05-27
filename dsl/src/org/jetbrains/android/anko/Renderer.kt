@@ -39,6 +39,8 @@ class Renderer(private val generator: Generator) : Configurable(generator.config
         val CONSTRUCTOR2 = array(Type.getObjectType("android/content/Context"), Type.getObjectType("android/util/AttributeSet"))
         val AVAILABLE_VIEW_CONSTRUCTORS = listOf(CONSTRUCTOR1, CONSTRUCTOR2)
 
+        val APP_COMPAT_PREFIX = "android.support.v7.widget.AppCompat"
+
         fun renderConstructor(
                 view: ClassNode,
                 constructors: List<MethodNode?>,
@@ -226,7 +228,11 @@ class Renderer(private val generator: Generator) : Configurable(generator.config
         return views.filter { !it.isAbstract }.map { view ->
             val typeName = view.fqName
             val className = nameResolver(view)
-            val funcName = view.simpleName.decapitalize() + view.supportSuffix
+            val tintView = view.fqName.startsWith(APP_COMPAT_PREFIX)
+
+            val funcName = if (tintView)
+                "tint" + className.substring(APP_COMPAT_PREFIX.length())
+            else view.simpleName.decapitalize() + view.supportSuffix
 
             val constructors = AVAILABLE_VIEW_CONSTRUCTORS.map { constructor ->
                 view.getConstructors().firstOrNull() { Arrays.equals(it.args, constructor) }
@@ -238,7 +244,13 @@ class Renderer(private val generator: Generator) : Configurable(generator.config
                     line("public inline fun $extendFor.$funcName(): $typeName = $funcName({})")
                     line("public inline fun $extendFor.$funcName($ONLY_LOCAL_RETURN init: $className.() -> Unit): $typeName = addView {")
                         line("ctx ->")
-                        line("val view = $className(${renderConstructor(view, constructors, "ctx")})")
+                        if (tintView) {
+                            val constructor = renderConstructor(view, constructors, "ctx")
+                            val simpleWidgetClassName = className.substring(APP_COMPAT_PREFIX.length())
+                            line("val view = if (Build.VERSION.SDK_INT < 21) $className($constructor) else $simpleWidgetClassName($constructor)")
+                        } else {
+                            line("val view = $className(${renderConstructor(view, constructors, "ctx")})")
+                        }
                         line("view.init()")
                         line("view")
                     line("}")
@@ -435,10 +447,10 @@ class Renderer(private val generator: Generator) : Configurable(generator.config
         )
     }
 
-    private val ClassNode.fromSupportV7: Boolean
-        get() = fqName.startsWith("android.support.v7")
+    private val ClassNode.fromSupportPackage: Boolean
+        get() = fqName.startsWith("android.support")
 
     private val ClassNode.supportSuffix: String
-        get() = if (fromSupportV7) "Support" else ""
+        get() = if (fromSupportPackage) "Support" else ""
 
 }
