@@ -39,7 +39,7 @@ class Renderer(private val generator: Generator) : Configurable(generator.config
         val CONSTRUCTOR2 = array(Type.getObjectType("android/content/Context"), Type.getObjectType("android/util/AttributeSet"))
         val AVAILABLE_VIEW_CONSTRUCTORS = listOf(CONSTRUCTOR1, CONSTRUCTOR2)
 
-        val APP_COMPAT_PREFIX = "android.support.v7.widget.AppCompat"
+        val APP_COMPAT_VIEW_PREFIX = "android.support.v7.widget.AppCompat"
 
         fun renderConstructor(
                 view: ClassNode,
@@ -228,10 +228,10 @@ class Renderer(private val generator: Generator) : Configurable(generator.config
         return views.filter { !it.isAbstract }.map { view ->
             val typeName = view.fqName
             val className = nameResolver(view)
-            val tintView = view.fqName.startsWith(APP_COMPAT_PREFIX)
+            val tintView = typeName.startsWith(APP_COMPAT_VIEW_PREFIX)
 
             val funcName = if (tintView)
-                "tint" + className.substring(APP_COMPAT_PREFIX.length())
+                "tint" + className.substring(APP_COMPAT_VIEW_PREFIX.length())
             else view.simpleName.decapitalize() + view.supportSuffix
 
             val constructors = AVAILABLE_VIEW_CONSTRUCTORS.map { constructor ->
@@ -246,7 +246,7 @@ class Renderer(private val generator: Generator) : Configurable(generator.config
                         line("ctx ->")
                         if (tintView) {
                             val constructor = renderConstructor(view, constructors, "ctx")
-                            val simpleWidgetClassName = className.substring(APP_COMPAT_PREFIX.length())
+                            val simpleWidgetClassName = className.substring(APP_COMPAT_VIEW_PREFIX.length())
                             line("val view = if (Build.VERSION.SDK_INT < 21) $className($constructor) else $simpleWidgetClassName($constructor)")
                         } else {
                             line("val view = $className(${renderConstructor(view, constructors, "ctx")})")
@@ -308,9 +308,9 @@ class Renderer(private val generator: Generator) : Configurable(generator.config
         generator.viewClasses.filter { Props.helperConstructors.contains(it.fqName) }.forEach { view ->
             val className = view.fqName
             val helperConstructors = Props.helperConstructors[view.fqName]!!
+            val funcName = view.simpleName.decapitalize()
 
             for (constructor in helperConstructors) {
-                val funcName = view.simpleName.decapitalize()
                 val collected = constructor.zip(collectProperties(view, constructor))
                 val helperArguments = collected.map {
                     val argumentType = it.second.args[0].asString()
@@ -318,18 +318,27 @@ class Renderer(private val generator: Generator) : Configurable(generator.config
                 }.joinToString(", ")
                 val setters = collected.map { "view.${it.second.name}(${it.first.name})" }
 
-                fun Buffer.add(extendFor: String) {
+                fun Buffer.add(extendFor: String, funcName: String, className: String, returnType: String) {
+                    val tintView = className.startsWith(APP_COMPAT_VIEW_PREFIX)
+
+                    val makeView = if (tintView) {
+                        val simpleWidgetClassName = className.substring(APP_COMPAT_VIEW_PREFIX.length())
+                        "val view = if (Build.VERSION.SDK_INT < 21) $className(ctx) else $simpleWidgetClassName(ctx)"
+                    } else {
+                        "val view = $className(ctx)"
+                    }
+
                     line(NOTHING_TO_INLINE)
-                    line("public inline fun $extendFor.$funcName($helperArguments): $className = addView {")
+                    line("public inline fun $extendFor.$funcName($helperArguments): $returnType = addView {")
                         line("ctx ->")
-                        line("val view = $className(ctx)")
+                        line(makeView)
                         lines(setters)
                         line("view")
                     line("}")
 
-                    line("public inline fun $extendFor.$funcName($helperArguments, $ONLY_LOCAL_RETURN init: $className.() -> Unit): $className = addView {")
+                    line("public inline fun $extendFor.$funcName($helperArguments, $ONLY_LOCAL_RETURN init: $className.() -> Unit): $returnType = addView {")
                         line("ctx ->")
-                        line("val view = $className(ctx)")
+                        line(makeView)
                         lines(setters)
                         line("view.init()")
                         line("view")
@@ -337,7 +346,10 @@ class Renderer(private val generator: Generator) : Configurable(generator.config
                 }
 
                 ret.add(buffer {
-                    add("ViewManager")
+                    add("ViewManager", funcName, className, className)
+                    if (generator.viewClasses.filter { it.fqName == APP_COMPAT_VIEW_PREFIX + view.simpleName }.isNotEmpty()) {
+                        add("ViewManager", "tint${funcName.capitalize()}", APP_COMPAT_VIEW_PREFIX + view.simpleName, className)
+                    }
                 }.toString())
             }
         }

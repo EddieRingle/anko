@@ -12,6 +12,20 @@ public inline fun ViewManager.button(text: CharSequence?, inlineOptions(InlineOp
     view.init()
     view
 }
+[suppress("NOTHING_TO_INLINE")]
+public inline fun ViewManager.tintButton(text: CharSequence?): android.widget.Button = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatButton(ctx) else Button(ctx)
+    view.setText(text)
+    view
+}
+public inline fun ViewManager.tintButton(text: CharSequence?, inlineOptions(InlineOption.ONLY_LOCAL_RETURN) init: android.support.v7.widget.AppCompatButton.() -> Unit): android.widget.Button = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatButton(ctx) else Button(ctx)
+    view.setText(text)
+    view.init()
+    view
+}
 
 [suppress("NOTHING_TO_INLINE")]
 public inline fun ViewManager.button(text: Int): android.widget.Button = addView {
@@ -23,6 +37,20 @@ public inline fun ViewManager.button(text: Int): android.widget.Button = addView
 public inline fun ViewManager.button(text: Int, inlineOptions(InlineOption.ONLY_LOCAL_RETURN) init: android.widget.Button.() -> Unit): android.widget.Button = addView {
     ctx ->
     val view = android.widget.Button(ctx)
+    view.setText(text)
+    view.init()
+    view
+}
+[suppress("NOTHING_TO_INLINE")]
+public inline fun ViewManager.tintButton(text: Int): android.widget.Button = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatButton(ctx) else Button(ctx)
+    view.setText(text)
+    view
+}
+public inline fun ViewManager.tintButton(text: Int, inlineOptions(InlineOption.ONLY_LOCAL_RETURN) init: android.support.v7.widget.AppCompatButton.() -> Unit): android.widget.Button = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatButton(ctx) else Button(ctx)
     view.setText(text)
     view.init()
     view
@@ -42,6 +70,20 @@ public inline fun ViewManager.checkBox(text: CharSequence?, inlineOptions(Inline
     view.init()
     view
 }
+[suppress("NOTHING_TO_INLINE")]
+public inline fun ViewManager.tintCheckBox(text: CharSequence?): android.widget.CheckBox = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatCheckBox(ctx) else CheckBox(ctx)
+    view.setText(text)
+    view
+}
+public inline fun ViewManager.tintCheckBox(text: CharSequence?, inlineOptions(InlineOption.ONLY_LOCAL_RETURN) init: android.support.v7.widget.AppCompatCheckBox.() -> Unit): android.widget.CheckBox = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatCheckBox(ctx) else CheckBox(ctx)
+    view.setText(text)
+    view.init()
+    view
+}
 
 [suppress("NOTHING_TO_INLINE")]
 public inline fun ViewManager.checkBox(text: Int): android.widget.CheckBox = addView {
@@ -53,6 +95,20 @@ public inline fun ViewManager.checkBox(text: Int): android.widget.CheckBox = add
 public inline fun ViewManager.checkBox(text: Int, inlineOptions(InlineOption.ONLY_LOCAL_RETURN) init: android.widget.CheckBox.() -> Unit): android.widget.CheckBox = addView {
     ctx ->
     val view = android.widget.CheckBox(ctx)
+    view.setText(text)
+    view.init()
+    view
+}
+[suppress("NOTHING_TO_INLINE")]
+public inline fun ViewManager.tintCheckBox(text: Int): android.widget.CheckBox = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatCheckBox(ctx) else CheckBox(ctx)
+    view.setText(text)
+    view
+}
+public inline fun ViewManager.tintCheckBox(text: Int, inlineOptions(InlineOption.ONLY_LOCAL_RETURN) init: android.support.v7.widget.AppCompatCheckBox.() -> Unit): android.widget.CheckBox = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatCheckBox(ctx) else CheckBox(ctx)
     view.setText(text)
     view.init()
     view
@@ -69,6 +125,22 @@ public inline fun ViewManager.checkBox(text: CharSequence?, checked: Boolean): a
 public inline fun ViewManager.checkBox(text: CharSequence?, checked: Boolean, inlineOptions(InlineOption.ONLY_LOCAL_RETURN) init: android.widget.CheckBox.() -> Unit): android.widget.CheckBox = addView {
     ctx ->
     val view = android.widget.CheckBox(ctx)
+    view.setText(text)
+    view.setChecked(checked)
+    view.init()
+    view
+}
+[suppress("NOTHING_TO_INLINE")]
+public inline fun ViewManager.tintCheckBox(text: CharSequence?, checked: Boolean): android.widget.CheckBox = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatCheckBox(ctx) else CheckBox(ctx)
+    view.setText(text)
+    view.setChecked(checked)
+    view
+}
+public inline fun ViewManager.tintCheckBox(text: CharSequence?, checked: Boolean, inlineOptions(InlineOption.ONLY_LOCAL_RETURN) init: android.support.v7.widget.AppCompatCheckBox.() -> Unit): android.widget.CheckBox = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatCheckBox(ctx) else CheckBox(ctx)
     view.setText(text)
     view.setChecked(checked)
     view.init()
@@ -91,6 +163,22 @@ public inline fun ViewManager.checkBox(text: Int, checked: Boolean, inlineOption
     view.init()
     view
 }
+[suppress("NOTHING_TO_INLINE")]
+public inline fun ViewManager.tintCheckBox(text: Int, checked: Boolean): android.widget.CheckBox = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatCheckBox(ctx) else CheckBox(ctx)
+    view.setText(text)
+    view.setChecked(checked)
+    view
+}
+public inline fun ViewManager.tintCheckBox(text: Int, checked: Boolean, inlineOptions(InlineOption.ONLY_LOCAL_RETURN) init: android.support.v7.widget.AppCompatCheckBox.() -> Unit): android.widget.CheckBox = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatCheckBox(ctx) else CheckBox(ctx)
+    view.setText(text)
+    view.setChecked(checked)
+    view.init()
+    view
+}
 
 [suppress("NOTHING_TO_INLINE")]
 public inline fun ViewManager.editText(text: CharSequence?): android.widget.EditText = addView {
@@ -106,6 +194,20 @@ public inline fun ViewManager.editText(text: CharSequence?, inlineOptions(Inline
     view.init()
     view
 }
+[suppress("NOTHING_TO_INLINE")]
+public inline fun ViewManager.tintEditText(text: CharSequence?): android.widget.EditText = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatEditText(ctx) else EditText(ctx)
+    view.setText(text)
+    view
+}
+public inline fun ViewManager.tintEditText(text: CharSequence?, inlineOptions(InlineOption.ONLY_LOCAL_RETURN) init: android.support.v7.widget.AppCompatEditText.() -> Unit): android.widget.EditText = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatEditText(ctx) else EditText(ctx)
+    view.setText(text)
+    view.init()
+    view
+}
 
 [suppress("NOTHING_TO_INLINE")]
 public inline fun ViewManager.editText(text: Int): android.widget.EditText = addView {
@@ -117,6 +219,20 @@ public inline fun ViewManager.editText(text: Int): android.widget.EditText = add
 public inline fun ViewManager.editText(text: Int, inlineOptions(InlineOption.ONLY_LOCAL_RETURN) init: android.widget.EditText.() -> Unit): android.widget.EditText = addView {
     ctx ->
     val view = android.widget.EditText(ctx)
+    view.setText(text)
+    view.init()
+    view
+}
+[suppress("NOTHING_TO_INLINE")]
+public inline fun ViewManager.tintEditText(text: Int): android.widget.EditText = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatEditText(ctx) else EditText(ctx)
+    view.setText(text)
+    view
+}
+public inline fun ViewManager.tintEditText(text: Int, inlineOptions(InlineOption.ONLY_LOCAL_RETURN) init: android.support.v7.widget.AppCompatEditText.() -> Unit): android.widget.EditText = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatEditText(ctx) else EditText(ctx)
     view.setText(text)
     view.init()
     view
@@ -196,6 +312,20 @@ public inline fun ViewManager.textView(text: CharSequence?, inlineOptions(Inline
     view.init()
     view
 }
+[suppress("NOTHING_TO_INLINE")]
+public inline fun ViewManager.tintTextView(text: CharSequence?): android.widget.TextView = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatTextView(ctx) else TextView(ctx)
+    view.setText(text)
+    view
+}
+public inline fun ViewManager.tintTextView(text: CharSequence?, inlineOptions(InlineOption.ONLY_LOCAL_RETURN) init: android.support.v7.widget.AppCompatTextView.() -> Unit): android.widget.TextView = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatTextView(ctx) else TextView(ctx)
+    view.setText(text)
+    view.init()
+    view
+}
 
 [suppress("NOTHING_TO_INLINE")]
 public inline fun ViewManager.textView(text: Int): android.widget.TextView = addView {
@@ -207,6 +337,20 @@ public inline fun ViewManager.textView(text: Int): android.widget.TextView = add
 public inline fun ViewManager.textView(text: Int, inlineOptions(InlineOption.ONLY_LOCAL_RETURN) init: android.widget.TextView.() -> Unit): android.widget.TextView = addView {
     ctx ->
     val view = android.widget.TextView(ctx)
+    view.setText(text)
+    view.init()
+    view
+}
+[suppress("NOTHING_TO_INLINE")]
+public inline fun ViewManager.tintTextView(text: Int): android.widget.TextView = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatTextView(ctx) else TextView(ctx)
+    view.setText(text)
+    view
+}
+public inline fun ViewManager.tintTextView(text: Int, inlineOptions(InlineOption.ONLY_LOCAL_RETURN) init: android.support.v7.widget.AppCompatTextView.() -> Unit): android.widget.TextView = addView {
+    ctx ->
+    val view = if (Build.VERSION.SDK_INT < 21) android.support.v7.widget.AppCompatTextView(ctx) else TextView(ctx)
     view.setText(text)
     view.init()
     view
