@@ -89,7 +89,7 @@ public open class _FragmentTabHostSupport(ctx: Context): android.support.v4.app.
 }
 
 public open class _ViewPagerSupport(ctx: Context): android.support.v4.view.ViewPager(ctx) {
-    public fun <T: View> T.layoutParams( viewPagerInit: android.support.v4.view.ViewPager.LayoutParams.() -> Unit = defaultInit): T {
+    public fun <T: View> T.layoutParams(viewPagerInit: android.support.v4.view.ViewPager.LayoutParams.() -> Unit = defaultInit): T {
         val layoutParams = android.support.v4.view.ViewPager.LayoutParams()
         layoutParams.viewPagerInit()
         this@layoutParams.setLayoutParams(layoutParams)
@@ -175,7 +175,7 @@ public open class _NestedScrollViewSupport(ctx: Context): android.support.v4.wid
 }
 
 public open class _SlidingPaneLayoutSupport(ctx: Context): android.support.v4.widget.SlidingPaneLayout(ctx) {
-    public fun <T: View> T.layoutParams( slidingPaneLayoutInit: android.support.v4.widget.SlidingPaneLayout.LayoutParams.() -> Unit = defaultInit): T {
+    public fun <T: View> T.layoutParams(slidingPaneLayoutInit: android.support.v4.widget.SlidingPaneLayout.LayoutParams.() -> Unit = defaultInit): T {
         val layoutParams = android.support.v4.widget.SlidingPaneLayout.LayoutParams()
         layoutParams.slidingPaneLayoutInit()
         this@layoutParams.setLayoutParams(layoutParams)
@@ -510,7 +510,7 @@ public open class _GridLayout(ctx: Context): android.widget.GridLayout(ctx) {
         return this
     }
 
-    public fun <T: View> T.layoutParams( gridLayoutInit: android.widget.GridLayout.LayoutParams.() -> Unit = defaultInit): T {
+    public fun <T: View> T.layoutParams(gridLayoutInit: android.widget.GridLayout.LayoutParams.() -> Unit = defaultInit): T {
         val layoutParams = android.widget.GridLayout.LayoutParams()
         layoutParams.gridLayoutInit()
         this@layoutParams.setLayoutParams(layoutParams)
@@ -762,7 +762,7 @@ public open class _TableLayout(ctx: Context): android.widget.TableLayout(ctx) {
         return this
     }
 
-    public fun <T: View> T.layoutParams( tableLayoutInit: android.widget.TableLayout.LayoutParams.() -> Unit = defaultInit): T {
+    public fun <T: View> T.layoutParams(tableLayoutInit: android.widget.TableLayout.LayoutParams.() -> Unit = defaultInit): T {
         val layoutParams = android.widget.TableLayout.LayoutParams()
         layoutParams.tableLayoutInit()
         this@layoutParams.setLayoutParams(layoutParams)
@@ -807,7 +807,7 @@ public open class _TableRow(ctx: Context): android.widget.TableRow(ctx) {
         return this
     }
 
-    public fun <T: View> T.layoutParams( tableRowInit: android.widget.TableRow.LayoutParams.() -> Unit = defaultInit): T {
+    public fun <T: View> T.layoutParams(tableRowInit: android.widget.TableRow.LayoutParams.() -> Unit = defaultInit): T {
         val layoutParams = android.widget.TableRow.LayoutParams()
         layoutParams.tableRowInit()
         this@layoutParams.setLayoutParams(layoutParams)

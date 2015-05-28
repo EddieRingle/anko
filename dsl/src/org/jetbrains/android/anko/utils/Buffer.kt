@@ -71,6 +71,16 @@ public class Buffer(private val indentString: String, indent: Int = 0, val init:
         return this
     }
 
+    public fun function(name: String, returnType: String?, vararg arguments: String, modifiers: String? = null, body: Buffer.() -> Unit) {
+        val argumentsString = arguments.filter { !it.isEmpty() }.joinToString(", ")
+        val returnTypeString = if (returnType != null) ": $returnType" else ""
+        val modifiersString = if (modifiers != null) " $modifiers" else ""
+
+        line("public$modifiersString fun $name($argumentsString)$returnTypeString {")
+        body()
+        line("}")
+    }
+
     public val size: Int
         get() = builder.length()
 

@@ -426,19 +426,21 @@ class Renderer(private val generator: Generator) : Configurable(generator.config
         val layoutParamsClassName = lp.layoutParams.fqName
         val helperClassName = "_${lp.layout.simpleName}${lp.layout.supportSuffix}"
 
-        fun renderExtensionFunction(constructor: MethodNodeWithClass): String {
+        fun renderExtensionFunction(constructor: MethodNodeWithClass): Buffer {
             val arguments = constructor.formatLayoutParamsArguments(config)
             val substituted = constructor.formatLayoutParamsArgumentsInvoke(config)
             val initArgumentName = "${lp.layout.simpleName.decapitalize()}Init"
-            val separator = if (arguments == "") "" else ","
+
             return buffer(indent = 1) {
-                line("public fun <T: View> T.layoutParams($arguments$separator $initArgumentName: $layoutParamsClassName.() -> Unit = defaultInit): T {")
-                line("val layoutParams = $layoutParamsClassName($substituted)")
-                line("layoutParams.$initArgumentName()")
-                line("this@layoutParams.setLayoutParams(layoutParams)")
-                line("return this")
-                line("}")
-            }.toString()
+                val initArgument = "$initArgumentName: $layoutParamsClassName.() -> Unit = defaultInit"
+
+                function("<T: View> T.layoutParams", "T", arguments, initArgument) {
+                    line("val layoutParams = $layoutParamsClassName($substituted)")
+                    line("layoutParams.$initArgumentName()")
+                    line("this@layoutParams.setLayoutParams(layoutParams)")
+                    line("return this")
+                }
+            }
         }
 
         val layoutParamsFunc = lp.constructors.map { renderExtensionFunction(MethodNodeWithClass(lp.layoutParams, it)) }
