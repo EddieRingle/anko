@@ -47,7 +47,7 @@ public enum class AnkoFile {
                 when (c) {
                     '_' -> capitalFlag = true
                     else -> {
-                        builder.append(if (capitalFlag) Character.toUpperCase(c) else c)
+                        builder.append(if (capitalFlag) Character.toUpperCase(c) else Character.toLowerCase(c))
                         capitalFlag = false
                     }
                 }
